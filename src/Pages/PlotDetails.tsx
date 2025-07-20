@@ -1,7 +1,7 @@
 import "swiper/css";
 import "swiper/css/pagination";
 import samplePlot from "../assets/plot.png";
-
+import ReactGA from "react-ga4";
 interface PlotDetailsProp {
   openModal: () => void;
 }
@@ -52,11 +52,19 @@ export default function PlotDetailsPage({ openModal }: PlotDetailsProp) {
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <button
-                onClick={openModal}
-                className="bg-[#26650B] text-white text-sm md:text-base px-6 py-2.5 rounded-md font-semibold tracking-wide shadow hover:scale-105 transition-transform"
-              >
-                Get Plot Plan
-              </button>
+  onClick={() => {
+    ReactGA.event({
+      category: "Form Submission",
+      action: "Get Pricing",
+      label: "Get Pricing",
+      value: 1,
+    });
+    openModal();
+  }}
+  className="cursor-pointer px-12 md:px-20 py-2 bg-black text-white rounded-xl text-base font-semibold transition-transform duration-300 hover:scale-105 md:text-base"
+>
+  Get Pricing
+</button>
             </div>
           </div>
         </div>

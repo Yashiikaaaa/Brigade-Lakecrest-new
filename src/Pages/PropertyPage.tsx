@@ -1,6 +1,7 @@
 import propertyImage from "../assets/Property.svg";
 import flowers from "../assets/flowers.svg";
 import lines from "../assets/homepage-lines.svg";
+import ReactGA from "react-ga4";
 
 interface PropertyPageProps {
   openModal: () => void;
@@ -34,12 +35,20 @@ export default function PropertyPage({ openModal }: PropertyPageProps) {
             <li>Ready by 2025, full completion 2030 </li> 
           </p>
 
-          <button
-            onClick={openModal} // Open the modal when clicked
-            className="bg-black text-sm text-white font-semibold px-10 py-2 rounded-lg w-fit mb-4 md:px-16 cursor-pointer transition-transform duration-300 hover:scale-105 md:text-base"
-          >
-            Download Brochure
-          </button>
+                    <button
+  onClick={() => {
+    ReactGA.event({
+      category: "Form Submission",
+      action: "Download Brochure",
+      label: "Download Brochure",
+      value: 1,
+    });
+    openModal();
+  }}
+  className="cursor-pointer px-12 md:px-20 py-2 bg-black text-white rounded-xl text-base font-semibold transition-transform duration-300 hover:scale-105 md:text-base"
+>
+  Download Brochure
+</button>
 
           <img
             src={flowers}
