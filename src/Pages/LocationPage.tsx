@@ -34,7 +34,7 @@ export default function LocationSection() {
               <li>Near KR Puram railway station</li>
               <li>Metro (Purple Line) connecting to Whitefield</li>
               <li>ISKCON - 7 mins</li>
-               <li>Close to schools, hospitals, malls, and IT hubs—balances urban convenience with natural calm</li>
+               <li>Close to schools, hospitals, malls, and IT hubs - balances urban convenience with natural calm</li>
 
         </p>
 

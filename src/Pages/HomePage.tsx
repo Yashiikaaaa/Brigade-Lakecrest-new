@@ -56,7 +56,7 @@ function HomePage({ openModal }: HomePageProps) {
             <p className="text-[#26650B] text-base md:text-xl">
               Starting Price
             </p>
-            <p className="font-bold text-lg md:text-2xl">₹93 Lakhs*</p>
+            <p className="font-bold text-lg md:text-2xl">₹97 Lakhs*</p>
           </div>
 
           {/* Available Plots */}

@@ -38,7 +38,7 @@ export default function PropertyPage({ openModal }: PropertyPageProps) {
             onClick={openModal} // Open the modal when clicked
             className="bg-black text-sm text-white font-semibold px-10 py-2 rounded-lg w-fit mb-4 md:px-16 cursor-pointer transition-transform duration-300 hover:scale-105 md:text-base"
           >
-            Enquire Now
+            Download Brochure
           </button>
 
           <img
