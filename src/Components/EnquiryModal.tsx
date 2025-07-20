@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import closeIcon from "../assets/close.svg";
-import modalImage from "../assets/modal-image.svg";
+import modalImage from "../assets/lakecrest2.jpg";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { FormAlert } from "./FormAlert";
@@ -321,7 +321,7 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal }) => {
 
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-800 leading-tight">
-                Know more about Brigade Plots? Enquire now!
+                Know more about Brigade Lakecrest? Enquire now!
               </h2>
             </div>
 
