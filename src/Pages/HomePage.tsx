@@ -15,7 +15,7 @@ function HomePage({ openModal }: HomePageProps) {
       Brigade Lakecrest
     </h1>
     <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mt-1">
-      Premium Township on Old Madras Road, Bengaluru
+    Old Madras Road, Bengaluru
     </h2>
   </div>
 
