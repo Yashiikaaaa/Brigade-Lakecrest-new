@@ -11,7 +11,7 @@ const Footer: React.FC<FooterProps> = ({ openModal }) => {
       {/* Heading */}
       <div className="flex flex-col items-center px-6 py-10 md:px-20 md:py-16 md:pb-30">
         <h2 className="text-[#26650B] font-bold text-2xl md:text-4xl mb-4 md:mb-6">
-          GET IN TOUCH
+          GET IN TOUCH WITH US!
         </h2>
 
         {/* Decorative line with dots */}
