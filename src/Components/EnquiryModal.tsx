@@ -5,13 +5,15 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { FormAlert } from "./FormAlert";
 import ReactGA from "react-ga4";
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
+import { LeadSource } from "../App";
 
 interface EnquiryModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  leadSource: LeadSource; 
 }
 
-// Declare global gtag to avoid TS errors
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -44,7 +46,8 @@ const gtag_report_conversion = (url?: string) => {
   }
 };
 
-const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal }) => {
+const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal, leadSource }) => {
+  const { trackFormSubmission } = useLeadTracking(); // Added this hook
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [contactNumber, setContactNumber] = useState<string>("");
@@ -134,16 +137,9 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal }) => {
 
   const getUTMParams = () => {
     const params = new URLSearchParams(window.location.search);
-    const source = params.get("utmSource");
-    const medium = params.get("utmMedium");
-    const campaign = params.get("utmCampaign");
-
-    ReactGA.send({
-      hitType: "pageview",
-      utm_source: source,
-      utm_medium: medium,
-      utm_campaign: campaign,
-    });
+    const source = params.get("utm_source");
+    const medium = params.get("utm_medium");
+    const campaign = params.get("utm_campaign");
 
     return {
       utmSource: source || "",
@@ -166,6 +162,13 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal }) => {
 
     setIsSubmitting(true);
     setSubmissionStatus("");
+
+    // Track form submission using the same pattern as ContactForm
+    trackFormSubmission(
+      leadSource?.source || LEAD_SOURCES.UNKNOWN,
+      "contact_form",
+      leadSource?.propertyType
+    );
 
     const payload = {
       name: name.trim().toLowerCase(),

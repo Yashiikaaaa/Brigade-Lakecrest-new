@@ -1,24 +1,28 @@
 import phoneIcon from "../assets/phone.svg";
 import plotImage from "../assets/plot-image.svg";
 import lines from "../assets/homepage-lines.svg";
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking"; // ✅ Add this import
 
 interface HomePageProps {
-  openModal: () => void;
+  openModal: (source: string, propertyType?: string | null) => void;
 }
 
 function HomePage({ openModal }: HomePageProps) {
+  const { trackButtonClick } = useLeadTracking();
   return (
-     <div id="home" className="bg-[#F2FFED] min-h-screen font-sans text-green-900 overflow-x-hidden overflow-y-hidden md:relative md:z-0 pt-[69px] md:pt-[80px] scroll-mt-16">
-  {/* Heading */}
-  <div className="px-4 md:px-[77px] pt-6 text-left text-[#26650B]">
-    <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
-      Brigade Lakecrest
-    </h1>
-    <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mt-1">
-    Old Madras Road, Bengaluru
-    </h2>
-  </div>
-
+    <div
+      id="home"
+      className="bg-[#F2FFED] min-h-screen font-sans text-green-900 overflow-x-hidden overflow-y-hidden md:relative md:z-0 pt-[69px] md:pt-[80px] scroll-mt-16"
+    >
+      {/* Heading */}
+      <div className="px-4 md:px-[77px] pt-6 text-left text-[#26650B]">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+          Brigade Lakecrest
+        </h1>
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mt-1">
+          Old Madras Road, Bengaluru
+        </h2>
+      </div>
 
       <img
         src={lines}
@@ -71,7 +75,14 @@ function HomePage({ openModal }: HomePageProps) {
           {/* Enquire Now Button */}
           <div className="col-span-2 md:ml-0 mt-2 md:mt-4 flex justify-center md:justify-start">
             <button
-              onClick={openModal}
+              onClick={() => {
+                trackButtonClick(
+                  LEAD_SOURCES.HERO,
+                  "enquire_now_click",
+                  "Enquire Now"
+                );
+                openModal(LEAD_SOURCES.HERO);
+              }}
               className="cursor-pointer px-12 md:px-20 py-2 bg-black text-white rounded-xl text-base font-semibold transition-transform duration-300 hover:scale-105 md:text-base"
             >
               Enquire Now

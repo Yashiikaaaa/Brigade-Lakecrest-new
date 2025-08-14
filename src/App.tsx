@@ -8,21 +8,64 @@ import StandardsPage from "./Pages/StandardsPage";
 import LifestylePage from "./Pages/Lifestyle";
 import Footer from "./Components/Footer";
 import EnquiryModal from "./Components/EnquiryModal";
+import ReactGA from "react-ga4";
+import { useLeadTracking } from "./hooks/useLeadTracking";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import ScrollToSectionWrapper from "./Components/ScrollToSectionWrapper";
 
-function App() {
-  const [isModalOpen, setModalOpen] = useState(false);
+// Define types for lead source tracking
+export interface LeadSource {
+  source: string;
+  propertyType?: string | null;
+}
 
-  const openModal = () => {
-    console.log("modal clicked");
+const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+
+function App() {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [leadSource, setLeadSource] = useState<LeadSource | null>(null);
+  const { trackFormOpen } = useLeadTracking();
+
+  const gaInitialized = useRef(false);
+  
+  useEffect(() => {
+    if (gaInitialized.current) return;
+    gaInitialized.current = true;
+
+    ReactGA.initialize(trackingId!, {
+      gtagOptions: {
+        send_page_view: false // Disable automatic pageview
+      }
+    });
+    
+    // Get UTM parameters
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = params.get("utm_source");
+    const utmMedium = params.get("utm_medium");
+    const utmCampaign = params.get("utm_campaign");
+
+    // Manually send pageview with UTM parameters included
+    ReactGA.gtag('event', 'page_view', {
+      page_path: window.location.pathname,
+      utm_source: utmSource,
+      utm_medium: utmMedium,
+      utm_campaign: utmCampaign
+    });
+  }, []);
+
+  // Enhanced modal opening function with lead source tracking
+  const openModal = (source: string, propertyType: string | null = null) => {
+    setLeadSource({ source, propertyType });
+    trackFormOpen(source, 'contact_form', propertyType);
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    // Optionally clear lead source when closing
+    // setLeadSource(null);
   };
 
   const layoutProps = { openModal };
@@ -41,7 +84,6 @@ function App() {
   return (
     <>
       <Header />
-
       <Routes>
         <Route
           path="/"
@@ -102,7 +144,11 @@ function App() {
       </Routes>
 
       <Footer {...layoutProps} />
-      <EnquiryModal isOpen={isModalOpen} closeModal={closeModal} />
+      <EnquiryModal 
+        isOpen={isModalOpen} 
+        closeModal={closeModal}
+        leadSource={leadSource!}
+      />
     </>
   );
 }

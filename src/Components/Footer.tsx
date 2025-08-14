@@ -1,11 +1,14 @@
 import React from "react";
 import phoneIcon from "../assets/phone.svg";
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking"; // ✅ import tracking hook
 
 interface FooterProps {
-  openModal: () => void;
+  openModal: (source: string, propertyType?: string | null) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ openModal }) => {
+  const { trackButtonClick } = useLeadTracking(); 
+
   return (
     <div className="bg-[#F2FFED] w-full md:relative md:pt-10">
       {/* Heading */}
@@ -22,7 +25,14 @@ const Footer: React.FC<FooterProps> = ({ openModal }) => {
 
         {/* Button */}
         <button
-          onClick={openModal} // Call openModal on click
+          onClick={() => {
+            trackButtonClick(
+              LEAD_SOURCES.FOOTER,
+              "book_site_visit_click",
+              "Book a Site Visit"
+            );
+            openModal(LEAD_SOURCES.FOOTER);
+          }}
           className="bg-black text-white text-lg md:text-base font-semibold px-12 py-3 md:px-16 md:py-2 rounded-xl cursor-pointer transition-transform duration-300 hover:scale-105"
         >
           Book a Site Visit
