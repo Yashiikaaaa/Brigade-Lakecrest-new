@@ -37,6 +37,7 @@ const gtag_report_conversion = (url?: string) => {
     const callback = () => {
       if (url) window.location.href = url;
     };
+    console.log("gtag conversion fired")
     window.gtag("event", "conversion", {
       send_to: "AW-16460421460/zvkSCLj3m6caENSy-Kg9",
       value: 1.0,
@@ -136,17 +137,19 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal, leadSou
   };
 
   const getUTMParams = () => {
-    const params = new URLSearchParams(window.location.search);
-    const source = params.get("utm_source");
-    const medium = params.get("utm_medium");
-    const campaign = params.get("utm_campaign");
+  const params = new URLSearchParams(window.location.search);
+  const campaignId = params.get("utmCampaignId"); // Add this
+  const source = params.get("utmSource");         // Remove utm_
+  const medium = params.get("utmMedium");         // Remove utm_
+  const campaign = params.get("utmCampaign");     // Remove utm_
 
-    return {
-      utmSource: source || "",
-      utmMedium: medium || "",
-      utmCampaign: campaign || "",
-    };
+  return {
+    utmCampaignId: campaignId || "",              // Add this
+    utmSource: source || "",
+    utmMedium: medium || "",
+    utmCampaign: campaign || "",
   };
+};
 
   useEffect(() => {
     setUtmParams(getUTMParams());
@@ -175,7 +178,7 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, closeModal, leadSou
       phoneNumber: contactNumber,
       campaign: true,
       projectId: "PL29",
-      projectName: "brigade lakecrest",
+      projectName: "Brigade Lakecrest",
       currentAgent: "yasswanth@truestate.in",
       utmDetails: {
         source: utmParams.utmSource || null,
